@@ -6,17 +6,21 @@ class Obstaculo(pygame.sprite.Sprite):
         super().__init__()
 
         tipos_de_obstaculos = [
-            'Imagens/agonia.png', 
-            'Imagens/panico.png', 
-            'Imagens/PeA-juntos.png', 
-            'Imagens/Sprite-coluna-inteira.png', 
-            'Imagens/Sprite-coluna-quebrada.png'
-
+            'Imagens/PeA-juntos.png',
+            'Imagens/Sprite-coluna-inteira.png',
+            'Imagens/Sprite-coluna-quebrada.png',
+            'Imagens\colunas-juntas.png',
+            'Imagens\Sprite-vaso.png'
         ]
 
         imagem_escolhida = random.choice(tipos_de_obstaculos)
-        self.image = pygame.image.load(imagem_escolhida).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (self.image.get_height() * 3, self.image.get_width() * 3)) 
+        original_image = pygame.image.load(imagem_escolhida).convert_alpha()
+
+        scale_factor = random.uniform(1.5, 3.5) 
+        
+        new_width = int(original_image.get_width() * scale_factor)
+        new_height = int(original_image.get_height() * scale_factor)
+        self.image = pygame.transform.scale(original_image, (new_width, new_height))
 
         self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(200, 300), altura_chao))
 

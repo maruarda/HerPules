@@ -2,33 +2,56 @@ import pygame
 import random
 
 class Ceu:
-    def __init__(self, vel, largura_tela): # Adicionei largura_tela aqui
-        self.image = pygame.image.load("Imagens/nuvem.png").convert_alpha() 
-        self.image = pygame.transform.scale(self.image, (self.image.get_height() * 3, self.image.get_width() * 3)) 
-        self.image.set_alpha(100)
+    def __init__(self, vel, largura_tela):
+        original_nuvem_image = pygame.image.load("Imagens/nuvem.png").convert_alpha()
+        self.nuvens_data = []
+        num_nuvens = 7
+        current_x = 0
 
-        self.copias = []
-        largura_img = self.image.get_width()
+        for _ in range(num_nuvens):
+            scale_factor = random.uniform(6, 9)
+            scaled_width = int(original_nuvem_image.get_width() * scale_factor)
+            scaled_height = int(original_nuvem_image.get_height() * scale_factor)
+            scaled_image = pygame.transform.scale(original_nuvem_image, (scaled_width, scaled_height))
 
-        for i in range(3):
-            pos_x = random.randint(0, largura_tela)
-            pos_y = random.randint(30, 200)
-            rect = self.image.get_rect(topleft=(pos_x, pos_y))
-            self.copias.append(rect)
+            alpha_value = max(0, 255 - (scale_factor * 15))
+            scaled_image.set_alpha(alpha_value)
+
+            pos_x = current_x
+            # <<< 1ª MUDANÇA AQUI
+            pos_y = random.randint(0, 90) # Antes era (30, 200)
+            rect = scaled_image.get_rect(topleft=(pos_x, pos_y))
+
+            self.nuvens_data.append({'image': scaled_image, 'rect': rect, 'alpha': alpha_value})
+
+            spacing = random.randint(150, 400)
+            current_x = rect.right + spacing
 
         self.vel = vel
+        self.largura_tela = largura_tela
 
     def update(self):
-        for rect in self.copias:
-            rect.x -= self.vel
+        for nuvem in self.nuvens_data:
+            nuvem['rect'].x -= self.vel
 
-        largura_img = self.image.get_width()
-        for rect in self.copias:
-            if rect.right <= 0: # Se a nuvem saiu pela esquerda...
-                max_right = max(r.right for r in self.copias)
-                rect.x = max_right + random.randint(50, 200) # Adiciona um espaço aleatório
-                rect.y = random.randint(30, 200) # Sorteia uma nova altura também
+        for nuvem in self.nuvens_data:
+            if nuvem['rect'].right <= 0:
+                max_right = max(n['rect'].right for n in self.nuvens_data)
+                spacing = random.randint(150, 400)
+                nuvem['rect'].x = max_right + spacing
+
+                scale_factor = random.uniform(6, 9)
+                original_nuvem_image = pygame.image.load("Imagens/nuvem.png").convert_alpha()
+                scaled_width = int(original_nuvem_image.get_width() * scale_factor)
+                scaled_height = int(original_nuvem_image.get_height() * scale_factor)
+                nuvem['image'] = pygame.transform.scale(original_nuvem_image, (scaled_width, scaled_height))
+                
+                alpha_value = max(0, 255 - (scale_factor * 15))
+                nuvem['image'].set_alpha(alpha_value)
+                
+                # <<< 2ª MUDANÇA AQUI
+                nuvem['rect'].y = random.randint(0, 90) # Antes era (30, 200)
 
     def draw(self, tela):
-        for rect in self.copias:
-            tela.blit(self.image, rect)
+        for nuvem in self.nuvens_data:
+            tela.blit(nuvem['image'], nuvem['rect'])
