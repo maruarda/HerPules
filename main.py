@@ -46,6 +46,8 @@ pygame.mixer.music.load('sons/musica.mp3')
 pygame.mixer.music.play(-1)
 music_volume = 0.2
 pygame.mixer.music.set_volume(music_volume)
+som_morte = pygame.mixer.Sound('sons/morte.wav')
+som_morte.set_volume(0.4)
 
 # --- TIMERS ---
 SPAWN_OBSTACULO = pygame.USEREVENT + 1
@@ -55,6 +57,7 @@ pygame.time.set_timer(SPAWN_OBSTACULO, 2000) # Obstáculos a cada 2 segundos
 def checar_colisao():
     # A colisão por máscara é mais precisa que a por retângulo
     if pygame.sprite.spritecollide(grupo_jogador.sprite, grupo_obstaculos, False, pygame.sprite.collide_mask):
+        som_morte.play()
         return False # <<< MUDANÇA: Retorna False para parar o jogo
     return True # <<< MUDANÇA: Retorna True para continuar
 
