@@ -17,7 +17,7 @@ class Hercules(pygame.sprite.Sprite):
         self.vel_x = 0
         self.vel_y = 0
         self.gravidade = 1
-        self.forca_pulo = -18
+        self.forca_pulo = -22
         self.no_chao = True
 
         self.anim_index = 0
@@ -66,6 +66,8 @@ class Hercules(pygame.sprite.Sprite):
             self.image = self.imagens_run[int(self.anim_index)]
         else:
             self.image = self.imagem_parado
+        
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, keys):
         self.input(keys)

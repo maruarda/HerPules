@@ -5,6 +5,7 @@ class Ceu:
     def __init__(self, vel, largura_tela): # Adicionei largura_tela aqui
         self.image = pygame.image.load("Imagens/nuvem.png").convert_alpha() 
         self.image = pygame.transform.scale(self.image, (self.image.get_height() * 3, self.image.get_width() * 3)) 
+        self.image.set_alpha(100)
 
         self.copias = []
         largura_img = self.image.get_width()
