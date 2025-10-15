@@ -1,2 +1,4 @@
 .venv/
 lembrete.txt
+_pycache_/
+*.pyc
