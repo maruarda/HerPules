@@ -2,6 +2,7 @@
 
 import pygame
 import sys
+import os
 from entidades.hercules import Hercules
 from entidades.chao import Chao
 from entidades.ceu import Ceu
@@ -52,6 +53,33 @@ som_morte.set_volume(0.4)
 # --- TIMERS ---
 SPAWN_OBSTACULO = pygame.USEREVENT + 1
 pygame.time.set_timer(SPAWN_OBSTACULO, 2000) # Obstáculos a cada 2 segundos
+
+# --- PONTUAÇÃO E RECORDE ---
+score = 0
+high_score = 0
+arquivo_recorde = "highscore.txt"
+
+# Função para carregar o recorde
+def carregar_high_score():
+    global high_score
+    if os.path.exists(arquivo_recorde):
+        try:
+            with open(arquivo_recorde, 'r') as file:
+                high_score = int(file.read())
+        except (ValueError, IOError):
+            # Se o arquivo estiver corrompido ou vazio, começa com 0
+            high_score = 0
+    else:
+        # Se o arquivo não existe, começa com 0
+        high_score = 0
+
+# Função para salvar o recorde
+def salvar_high_score():
+    with open(arquivo_recorde, 'w') as file:
+        file.write(str(int(high_score)))
+
+carregar_high_score()
+velocidade_score = 1 # A cada frame, o score aumenta este valor
 
 # --- FUNÇÕES ---
 def checar_colisao():
