@@ -9,7 +9,7 @@ class Chao(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=(0, y_pos))
 
 
-        # Criar uma segunda cópia para loop infinito
+        # Cria cópias para loop infinito
         self.copias = []
         largura_img = self.image.get_width()
         for i in range(10):
