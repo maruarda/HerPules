@@ -4,6 +4,7 @@ from entidades.chao import Chao
 from entidades.ceu import Ceu
 
 pygame.init()
+pygame.mixer.init()
 
 # Configurações da tela
 LARGURA, ALTURA = 800, 600
@@ -21,6 +22,12 @@ chao = Chao(y_pos=510, vel=5)
 
 #Criar o céu
 ceu = Ceu(vel=2, largura_tela=LARGURA)
+
+#música de fundo
+pygame.mixer.music.load('sons/musica.mp3')
+pygame.mixer.music.play(-1)
+music_volume = 0.2
+pygame.mixer.music.set_volume(music_volume)
 
 # Loop principal
 rodando = True

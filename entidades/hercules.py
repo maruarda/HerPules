@@ -1,4 +1,8 @@
 import pygame
+pygame.mixer.init()
+
+som_pulo = pygame.mixer.Sound('sons/pulo.wav')
+som_pulo.set_volume(0.5)
 
 class Hercules(pygame.sprite.Sprite):
     def __init__(self, pos) -> None:
@@ -43,6 +47,8 @@ class Hercules(pygame.sprite.Sprite):
         if keys[pygame.K_UP] and self.no_chao:
             self.vel_y = self.forca_pulo
             self.no_chao = False
+            som_pulo.play()
+
 
         # Abaixar
         if keys[pygame.K_DOWN]:
