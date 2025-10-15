@@ -1,6 +1,7 @@
 import pygame
 from entidades.hercules import Hercules
 from entidades.chao import Chao
+from entidades.ceu import Ceu
 
 pygame.init()
 
@@ -18,6 +19,9 @@ grupo = pygame.sprite.GroupSingle(hercules)
 # Criar chão
 chao = Chao(y_pos=510, vel=5)
 
+#Criar o céu
+ceu = Ceu(vel=2, largura_tela=LARGURA)
+
 # Loop principal
 rodando = True
 while rodando:
@@ -28,11 +32,14 @@ while rodando:
     keys = pygame.key.get_pressed()
     grupo.update(keys)
     chao.update()
+    ceu.update()
 
     # Desenho
     TELA.fill((135, 206, 235))  # Céu
+    ceu.draw(TELA)
     chao.draw(TELA)
     grupo.draw(TELA)
+    
 
     pygame.display.flip()
     clock.tick(60)
