@@ -17,8 +17,8 @@ pygame.display.set_caption("HerPULEs")
 clock = pygame.time.Clock()
 
 # --- FONTES E TEXTOS ---
-fonte = pygame.font.Font(None, 50)
-texto_inicio = fonte.render("Pressione qualquer tecla para comecar", True, "White")
+fonte = pygame.font.Font('fontes/DIOGENES.ttf', 50)
+texto_inicio = fonte.render("Pressione qualquer tecla para comecar", True, "black")
 texto_rect = texto_inicio.get_rect(center=(LARGURA / 2, ALTURA / 2))
 
 # --- IMAGENS ---
