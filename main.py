@@ -8,6 +8,7 @@ from entidades.ceu import Ceu
 from entidades.obstaculos import Obstaculo
 
 pygame.init()
+pygame.mixer.init()
 
 # Configurações da tela
 LARGURA, ALTURA = 800, 600
@@ -39,6 +40,12 @@ grupo_obstaculos = pygame.sprite.Group()
 # --- ENTIDADES DO CENÁRIO ---
 chao = Chao(y_pos=510, vel=5)
 ceu = Ceu(vel=2, largura_tela=LARGURA)
+
+#música de fundo
+pygame.mixer.music.load('sons/musica.mp3')
+pygame.mixer.music.play(-1)
+music_volume = 0.2
+pygame.mixer.music.set_volume(music_volume)
 
 # --- TIMERS ---
 SPAWN_OBSTACULO = pygame.USEREVENT + 1
