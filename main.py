@@ -18,8 +18,8 @@ pygame.display.set_caption("HerPULEs")
 clock = pygame.time.Clock()
 
 # --- FONTES E TEXTOS ---
-fonte = pygame.font.Font('fontes/DIOGENES.ttf', 50)
-texto_inicio = fonte.render("Pressione qualquer tecla para comecar", True, "black")
+fonte = pygame.font.Font('fontes/8BIT.ttf', 50)
+texto_inicio = fonte.render("PLAY", True, "black")
 texto_rect = texto_inicio.get_rect(center=(LARGURA / 2, ALTURA / 2))
 
 
@@ -42,40 +42,13 @@ ceu = Ceu(vel=2, largura_tela=LARGURA)
 
 pygame.mixer.music.load('sons/musica.mp3')
 pygame.mixer.music.play(-1)
-music_volume = 0.2
+music_volume = 0.8
 pygame.mixer.music.set_volume(music_volume)
 som_morte = pygame.mixer.Sound('sons/morte.wav')
-som_morte.set_volume(0.4)
+som_morte.set_volume(0.3)
 
 SPAWN_OBSTACULO = pygame.USEREVENT + 1
 pygame.time.set_timer(SPAWN_OBSTACULO, 2000) 
-
-# --- PONTUAÇÃO E RECORDE ---
-score = 0
-high_score = 0
-arquivo_recorde = "highscore.txt"
-
-# Função para carregar o recorde
-def carregar_high_score():
-    global high_score
-    if os.path.exists(arquivo_recorde):
-        try:
-            with open(arquivo_recorde, 'r') as file:
-                high_score = int(file.read())
-        except (ValueError, IOError):
-            # Se o arquivo estiver corrompido ou vazio, começa com 0
-            high_score = 0
-    else:
-        # Se o arquivo não existe, começa com 0
-        high_score = 0
-
-# Função para salvar o recorde
-def salvar_high_score():
-    with open(arquivo_recorde, 'w') as file:
-        file.write(str(int(high_score)))
-
-carregar_high_score()
-velocidade_score = 1 # A cada frame, o score aumenta este valor
 
 # --- FUNÇÕES ---
 def checar_colisao():

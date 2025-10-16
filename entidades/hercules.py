@@ -2,7 +2,7 @@ import pygame
 pygame.mixer.init()
 
 som_pulo = pygame.mixer.Sound('sons/pulo.wav')
-som_pulo.set_volume(0.4)
+som_pulo.set_volume(0.5)
 
 class Hercules(pygame.sprite.Sprite):
     def __init__(self, pos) -> None:
