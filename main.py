@@ -7,6 +7,7 @@ from entidades.hercules import Hercules
 from entidades.chao import Chao
 from entidades.ceu import Ceu
 from entidades.obstaculos import Obstaculo
+from entidades.iniciar import Botao 
 
 pygame.init()
 pygame.mixer.init()
@@ -18,18 +19,28 @@ pygame.display.set_caption("HerPULEs")
 clock = pygame.time.Clock()
 
 # --- FONTES E TEXTOS ---
-fonte = pygame.font.Font('fontes/8BIT.ttf', 50)
-texto_inicio = fonte.render("PLAY", True, "black")
-texto_rect = texto_inicio.get_rect(center=(LARGURA / 2, ALTURA / 2))
+fonte_jogo = pygame.font.Font('fontes/8BIT.ttf', 30) 
+fonte_contagem = pygame.font.Font('fontes/8BIT.ttf', 100) 
 
+# --- ESTADOS DO JOGO --- # 
+estado_jogo = 'menu' 
+
+
+botao_iniciar = Botao(
+    x=(LARGURA / 2) + 200, 
+    y=ALTURA - 70, 
+    texto='Iniciar', 
+    fonte=fonte_jogo
+)
+
+# contagem regressiva
+contagem_numero = 3
+contagem_timer = pygame.USEREVENT + 2 
+ultimo_numero_contagem = 0
 
 fundo = pygame.image.load('Imagens/Fundo.jpg').convert()
 fundo = pygame.transform.scale(fundo, (LARGURA, ALTURA))
 fundo.set_alpha(150) 
-
-
-jogo_ativo = False
-
 
 grupo_jogador = pygame.sprite.GroupSingle()
 hercules = Hercules(pos=(70, 400))
@@ -54,8 +65,16 @@ pygame.time.set_timer(SPAWN_OBSTACULO, 2000)
 def checar_colisao():
     if pygame.sprite.spritecollide(grupo_jogador.sprite, grupo_obstaculos, False, pygame.sprite.collide_mask):
         som_morte.play()
-        return False # <<< MUDANÇA: Retorna False para parar o jogo
-    return True # <<< MUDANÇA: Retorna True para continuar
+        return False 
+    return True 
+
+def desenhar_tela_base(): 
+    """Desenha os elementos que aparecem em quase todas as telas."""
+    TELA.blit(fundo, (0, 0))
+    ceu.draw(TELA)
+    chao.draw(TELA)
+    grupo_jogador.draw(TELA) 
+
 
 rodando = True
 while rodando:
@@ -63,36 +82,56 @@ while rodando:
         if event.type == pygame.QUIT:
             rodando = False
         
-        if jogo_ativo:
+        
+        if estado_jogo == 'jogando':
             if event.type == SPAWN_OBSTACULO:
                 grupo_obstaculos.add(Obstaculo(vel=5, largura_tela=LARGURA, altura_chao=400))
-        else:
-            if event.type == pygame.KEYDOWN:
-                jogo_ativo = True
-                grupo_obstaculos.empty() 
+        
+        elif estado_jogo == 'contagem':
+            if event.type == contagem_timer:
+                contagem_numero -= 1
 
     # --- LÓGICA E DESENHO ---
-    if jogo_ativo:
+    if estado_jogo == 'menu':
+        desenhar_tela_base()
+        botao_iniciar.draw(TELA)
+
+        if botao_iniciar.check_click():
+            estado_jogo = 'contagem'
+            contagem_numero = 3
+            pygame.time.set_timer(contagem_timer, 1000)
+
+    elif estado_jogo == 'contagem':
+        desenhar_tela_base()
+        
+        
+        tempo_atual = pygame.time.get_ticks()
+        if tempo_atual - ultimo_numero_contagem > 1000:
+             ultimo_numero_contagem = tempo_atual
+
+        if tempo_atual - ultimo_numero_contagem < 700: 
+            texto_contagem = fonte_contagem.render(str(contagem_numero), True, 'black')
+            texto_contagem_rect = texto_contagem.get_rect(center=(LARGURA / 2, ALTURA / 2))
+            TELA.blit(texto_contagem, texto_contagem_rect)
+        
+        if contagem_numero < 1:
+            estado_jogo = 'jogando'
+            grupo_obstaculos.empty() 
+            pygame.time.set_timer(contagem_timer, 0) 
+
+    elif estado_jogo == 'jogando':
         keys = pygame.key.get_pressed()
         grupo_jogador.update(keys)
         grupo_obstaculos.update()
         chao.update()
         ceu.update()
         
-        jogo_ativo = checar_colisao()
 
-        TELA.blit(fundo, (0, 0))
-        ceu.draw(TELA)
-        chao.draw(TELA)
+        desenhar_tela_base()
         grupo_obstaculos.draw(TELA)
-        grupo_jogador.draw(TELA)
-
-    else: 
-        TELA.blit(fundo, (0, 0))
-        ceu.draw(TELA)
-        chao.draw(TELA)
-        grupo_jogador.draw(TELA) 
-        TELA.blit(texto_inicio, texto_rect) 
+        
+        if not checar_colisao():
+            estado_jogo = 'menu' 
 
     pygame.display.flip()
     clock.tick(60)
