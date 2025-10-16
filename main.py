@@ -32,12 +32,12 @@ jogo_ativo = False
 
 
 grupo_jogador = pygame.sprite.GroupSingle()
-hercules = Hercules(pos=(100, 510))
+hercules = Hercules(pos=(70, 400))
 grupo_jogador.add(hercules)
 
 grupo_obstaculos = pygame.sprite.Group()
 
-chao = Chao(y_pos=510, vel=5)
+chao = Chao(y_pos=400, vel=5)
 ceu = Ceu(vel=2, largura_tela=LARGURA)
 
 pygame.mixer.music.load('sons/musica.mp3')
@@ -92,7 +92,7 @@ while rodando:
         
         if jogo_ativo:
             if event.type == SPAWN_OBSTACULO:
-                grupo_obstaculos.add(Obstaculo(vel=5, largura_tela=LARGURA, altura_chao=510))
+                grupo_obstaculos.add(Obstaculo(vel=5, largura_tela=LARGURA, altura_chao=400))
         else:
             if event.type == pygame.KEYDOWN:
                 jogo_ativo = True

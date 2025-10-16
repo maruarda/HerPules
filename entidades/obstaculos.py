@@ -7,6 +7,8 @@ class Obstaculo(pygame.sprite.Sprite):
 
         tipos_de_obstaculos = [
             'Imagens/PeA-juntos.png',
+            'Imagens\Agonia.png',
+            'Imagens\panico.png',
             'Imagens/Sprite-coluna-inteira.png',
             'Imagens/Sprite-coluna-quebrada.png',
             'Imagens\colunas-juntas.png',
@@ -14,9 +16,14 @@ class Obstaculo(pygame.sprite.Sprite):
         ]
 
         imagem_escolhida = random.choice(tipos_de_obstaculos)
-        original_image = pygame.image.load(imagem_escolhida).convert_alpha()
+        if (imagem_escolhida == 'Imagens/PeA-juntos.png') or (imagem_escolhida =='Imagens\Agonia.png') or (imagem_escolhida == 'Imagens\panico.png'):
+            scale_factor = random.uniform(1.5, 2.2) 
+        elif imagem_escolhida == 'Imagens/Sprite-coluna-quebrada.png':
+            scale_factor = random.uniform(2, 2.7)
+        else:
+            scale_factor = random.uniform(2, 2.5) 
 
-        scale_factor = random.uniform(1.5, 3.5) 
+        original_image = pygame.image.load(imagem_escolhida).convert_alpha() 
         
         new_width = int(original_image.get_width() * scale_factor)
         new_height = int(original_image.get_height() * scale_factor)

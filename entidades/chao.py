@@ -5,14 +5,15 @@ class Chao(pygame.sprite.Sprite):
         super().__init__()
 
         # Carregar imagem do chão
-        self.image = pygame.transform.scale(pygame.image.load("Imagens/chao.png").convert_alpha(),(16*6,16*6))
+        self.image = pygame.transform.scale(pygame.image.load("Imagens/chao.png").convert_alpha(),(16*4,16*4))
         self.rect = self.image.get_rect(topleft=(0, y_pos))
 
 
         # Cria cópias para loop infinito
         self.copias = []
+        quant_copias = 14
         largura_img = self.image.get_width()
-        for i in range(10):
+        for i in range(quant_copias):
             rect = self.image.get_rect(topleft=(i * largura_img, y_pos))
             self.copias.append(rect)
 

@@ -9,12 +9,12 @@ class Ceu:
         current_x = 0
 
         for _ in range(num_nuvens):
-            scale_factor = random.uniform(6, 9)
+            scale_factor = random.uniform(3, 6)
             scaled_width = int(original_nuvem_image.get_width() * scale_factor)
             scaled_height = int(original_nuvem_image.get_height() * scale_factor)
             scaled_image = pygame.transform.scale(original_nuvem_image, (scaled_width, scaled_height))
 
-            alpha_value = max(0, 255 - (scale_factor * 15))
+            alpha_value = max(0, 255 - (scale_factor * 23))
             scaled_image.set_alpha(alpha_value)
 
             pos_x = current_x
@@ -40,7 +40,7 @@ class Ceu:
                 spacing = random.randint(150, 400)
                 nuvem['rect'].x = max_right + spacing
 
-                scale_factor = random.uniform(6, 9)
+                scale_factor = random.uniform(3, 6)
                 original_nuvem_image = pygame.image.load("Imagens/nuvem.png").convert_alpha()
                 scaled_width = int(original_nuvem_image.get_width() * scale_factor)
                 scaled_height = int(original_nuvem_image.get_height() * scale_factor)
