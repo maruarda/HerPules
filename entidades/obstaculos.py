@@ -5,6 +5,7 @@ class Obstaculo(pygame.sprite.Sprite):
     def __init__(self, vel, largura_tela, altura_chao):
         super().__init__()
 
+     
         tipos_de_obstaculos = [
             'Imagens/PeA-juntos.png',
             'Imagens\Agonia.png',
@@ -13,8 +14,8 @@ class Obstaculo(pygame.sprite.Sprite):
             'Imagens/Sprite-coluna-quebrada.png',
             'Imagens\colunas-juntas.png',
             'Imagens\Sprite-vaso.png',
-            'Imagens\hades-ani.gif',
-            'Imagens/fogo-ani.gif'
+            'Imagens/hades1.png',
+            'Imagens/fogo1.gif'
         ]
 
         imagem_escolhida = random.choice(tipos_de_obstaculos)
@@ -31,7 +32,13 @@ class Obstaculo(pygame.sprite.Sprite):
         new_height = int(original_image.get_height() * scale_factor)
         self.image = pygame.transform.scale(original_image, (new_width, new_height))
 
-        self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(200, 300), altura_chao))
+        alturas_possiveis = [altura_chao, altura_chao - 85, altura_chao - 90, altura_chao - 100]
+        altura_escolhida = random.choice(alturas_possiveis)
+
+        if imagem_escolhida == 'Imagens/hades1.png' or imagem_escolhida == 'Imagens/fogo1.png':
+            self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(200, 300), altura_escolhida))
+        else:
+            self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(200, 300), altura_chao))
 
         self.mask = pygame.mask.from_surface(self.image)
         
