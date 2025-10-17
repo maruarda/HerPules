@@ -25,20 +25,21 @@ fonte_contagem = pygame.font.Font('fontes/8BIT.ttf', 100)
 fonte_titulo = pygame.font.Font('fontes/DIOGENES.ttf', 100)
 texto_titulo = fonte_titulo.render('HerPULEs', True, (204, 51, 0))
 
-texto_jogue = fonte_jogo.render('Jogue aqui!', True, 'white')
-texto_jogue.set_alpha(100)
-texto_jogue_rect = texto_jogue.get_rect(center=(LARGURA / 3, ALTURA - 75))
-
 # --- ESTADOS DO JOGO --- # 
 estado_jogo = 'menu' 
 
 
 botao_iniciar = Botao(
-    x=(LARGURA / 2) + 200, 
+    x=405,
     y=ALTURA - 70, 
     texto='Iniciar', 
     fonte=fonte_jogo
 )
+
+# centralizar
+botao_iniciar.rect.x = (LARGURA - botao_iniciar.rect.width) / 2
+
+
 
 # contagem regressiva
 contagem_numero = 3
@@ -82,7 +83,6 @@ def desenhar_tela_base():
     grupo_jogador.draw(TELA) 
     pygame.draw.rect(TELA, (0, 0, 0), retangulo_tela)
     chao.draw(TELA)
-    TELA.blit(texto_jogue, texto_jogue_rect)
 
 
 rodando = True
