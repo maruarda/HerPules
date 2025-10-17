@@ -12,7 +12,9 @@ class Obstaculo(pygame.sprite.Sprite):
             'Imagens/Sprite-coluna-inteira.png',
             'Imagens/Sprite-coluna-quebrada.png',
             'Imagens\colunas-juntas.png',
-            'Imagens\Sprite-vaso.png'
+            'Imagens\Sprite-vaso.png',
+            'Imagens\hades-ani.gif',
+            'Imagens/fogo-ani.gif'
         ]
 
         imagem_escolhida = random.choice(tipos_de_obstaculos)
