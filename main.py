@@ -17,10 +17,17 @@ LARGURA, ALTURA = 800, 600
 TELA = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("HerPULEs")
 clock = pygame.time.Clock()
+retangulo_tela = pygame.Rect(0, 400, LARGURA, ALTURA/3)
 
 # --- FONTES E TEXTOS ---
 fonte_jogo = pygame.font.Font('fontes/8BIT.ttf', 30) 
 fonte_contagem = pygame.font.Font('fontes/8BIT.ttf', 100) 
+fonte_titulo = pygame.font.Font('fontes/DIOGENES.ttf', 100)
+texto_titulo = fonte_titulo.render('HerPULEs', True, (204, 51, 0))
+
+texto_jogue = fonte_jogo.render('Jogue aqui!', True, 'white')
+texto_jogue.set_alpha(100)
+texto_jogue_rect = texto_jogue.get_rect(center=(LARGURA / 3, ALTURA - 75))
 
 # --- ESTADOS DO JOGO --- # 
 estado_jogo = 'menu' 
@@ -72,8 +79,10 @@ def desenhar_tela_base():
     """Desenha os elementos que aparecem em quase todas as telas."""
     TELA.blit(fundo, (0, 0))
     ceu.draw(TELA)
-    chao.draw(TELA)
     grupo_jogador.draw(TELA) 
+    pygame.draw.rect(TELA, (0, 0, 0), retangulo_tela)
+    chao.draw(TELA)
+    TELA.blit(texto_jogue, texto_jogue_rect)
 
 
 rodando = True
@@ -95,6 +104,8 @@ while rodando:
     if estado_jogo == 'menu':
         desenhar_tela_base()
         botao_iniciar.draw(TELA)
+        texto_titulo = fonte_titulo.render('HerPULEs!', True, (204, 122, 0))
+        TELA.blit(texto_titulo, (LARGURA / 2 - texto_titulo.get_width() / 2, ALTURA / 4))  
 
         if botao_iniciar.check_click():
             estado_jogo = 'contagem'
@@ -111,7 +122,7 @@ while rodando:
 
         if tempo_atual - ultimo_numero_contagem < 700: 
             texto_contagem = fonte_contagem.render(str(contagem_numero), True, 'black')
-            texto_contagem_rect = texto_contagem.get_rect(center=(LARGURA / 2, ALTURA / 2))
+            texto_contagem_rect = texto_contagem.get_rect(center=(LARGURA / 2 , ALTURA / 3 ))
             TELA.blit(texto_contagem, texto_contagem_rect)
         
         if contagem_numero < 1:
