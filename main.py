@@ -40,6 +40,16 @@ botao_iniciar = Botao(
     fonte=fonte_jogo
 )
 
+
+
+botao_agachar = Botao(
+    x=LARGURA - 100,
+    y=ALTURA - 70,
+    texto="Agachar",
+    fonte=fonte_jogo
+)
+
+
 # contagem regressiva
 contagem_numero = 3
 contagem_timer = pygame.USEREVENT + 2 
@@ -131,18 +141,27 @@ while rodando:
             pygame.time.set_timer(contagem_timer, 0) 
 
     elif estado_jogo == 'jogando':
-        keys = pygame.key.get_pressed()
-        grupo_jogador.update(keys)
+        # Atualiza entidades
+        grupo_jogador.update()
         grupo_obstaculos.update()
         chao.update()
         ceu.update()
-        
 
+        # Desenha elementos
         desenhar_tela_base()
         grupo_obstaculos.draw(TELA)
-        
+
+        # --- BOTÃO DE AGACHAR ---
+        botao_agachar.draw(TELA)
+        if botao_agachar.check_click():
+            set_agachar(True)
+        else:
+            set_agachar(False)
+        # -------------------------
+
+        # Verifica colisões
         if not checar_colisao():
-            estado_jogo = 'menu' 
+            estado_jogo = 'menu'
 
     pygame.display.flip()
     clock.tick(60)

@@ -1,8 +1,11 @@
+from controle_mediapipe.movimento import DetectorPulo
 import pygame
 pygame.mixer.init()
 
 som_pulo = pygame.mixer.Sound('sons/pulo.wav')
 som_pulo.set_volume(0.8)
+
+detector = DetectorPulo()
 
 class Hercules(pygame.sprite.Sprite):
     def __init__(self, pos) -> None:
@@ -33,23 +36,22 @@ class Hercules(pygame.sprite.Sprite):
         self.esta_correndo = False
         self.esta_abaixado = False
 
-    def input(self, keys):
+    def input(self, keys=None):
+        global pular  # precisamos poder alterar o valor aqui
+        if pular == True:
+            print(pular)
         self.vel_x = 0
-        # Hercules sempre correndo
         self.esta_correndo = True
 
-        # Pular
-        if keys[pygame.K_UP] and self.no_chao:
+        # Pulo (sinal de evento único)
+        if pular and self.no_chao:
             self.vel_y = self.forca_pulo
             self.no_chao = False
             som_pulo.play()
+            pular = False  # <-- zera o sinal depois de usar
 
+        # Agachar (controlado pelo botão)
 
-        # Abaixar
-        if keys[pygame.K_DOWN]:
-            self.esta_abaixado = True
-        else:
-            self.esta_abaixado = False
 
     def aplicar_gravidade(self):
         self.vel_y += self.gravidade
@@ -79,7 +81,11 @@ class Hercules(pygame.sprite.Sprite):
         
         self.mask = pygame.mask.from_surface(self.image)
 
-    def update(self, keys):
-        self.input(keys)
+    def update(self):
+        if detector.detectar_pulo() and self.no_chao:
+            self.vel_y = self.forca_pulo
+            self.no_chao = False
+            som_pulo.play()
+
         self.aplicar_gravidade()
         self.animar()
