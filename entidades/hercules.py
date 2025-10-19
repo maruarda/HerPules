@@ -42,14 +42,17 @@ class Hercules(pygame.sprite.Sprite):
         if keys[pygame.K_UP] and self.no_chao:
             self.vel_y = self.forca_pulo
             self.no_chao = False
-            som_pulo.play()
+            pulo.play()
 
+        if self.vel_y < -15:
+            self.vel_y = -15
 
         # Abaixar
-        if keys[pygame.K_DOWN]:
-            self.esta_abaixado = True
+        if self.esta_abaixado:
+            self.image = self.imagem_abaixa[int(self.anim_index)]
         else:
-            self.esta_abaixado = False
+            self.image = self.imagem_parado
+
 
     def aplicar_gravidade(self):
         self.vel_y += self.gravidade
