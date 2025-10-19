@@ -58,6 +58,11 @@ fundo = pygame.image.load('Imagens/fundo.jpg').convert()
 fundo = pygame.transform.scale(fundo, (LARGURA, ALTURA))
 fundo.set_alpha(150)
 
+imagem_menu = pygame.image.load('Imagens/herpules.png').convert_alpha()
+imagem_menu = pygame.transform.scale(imagem_menu, (LARGURA//2, ALTURA//2))
+fundo.set_alpha(150)
+# ----------------------------------------
+
 grupo_jogador = pygame.sprite.GroupSingle()
 hercules = Hercules(pos=(70, 400))
 grupo_jogador.add(hercules)
@@ -96,6 +101,15 @@ def desenhar_tela_base():
     pygame.draw.rect(TELA, (0, 0, 0), retangulo_tela)
     chao.draw(TELA)
 
+def desenhar_tela_menu():
+    TELA.blit(fundo, (0, 0))
+    ceu.draw(TELA)
+    
+    imagem_menu_rect = imagem_menu.get_rect(center=(LARGURA / 2, ALTURA / 3)) # Ajuste ALTURA / 3 se quiser mais para cima
+    TELA.blit(imagem_menu, imagem_menu_rect) # Desenha a imagem na posição calculada
+    grupo_jogador.draw(TELA)
+    pygame.draw.rect(TELA, (0, 0, 0), retangulo_tela)
+    chao.draw(TELA)
 
 
 def identificar_pe(pose, superficie):
@@ -164,7 +178,9 @@ while rodando:
         grupo_jogador.sprite.vel_y = 0
         grupo_jogador.sprite.no_chao = True
         grupo_jogador.sprite.esta_abaixado = False
-        desenhar_tela_base()
+
+        desenhar_tela_menu()
+
         # Desenha o botão imagem
         TELA.blit(botao_iniciar, botao_rect)
 
