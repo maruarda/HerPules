@@ -96,12 +96,20 @@ def desenhar_tela_base():
     pygame.draw.rect(TELA, (0, 0, 0), retangulo_tela)
     chao.draw(TELA)
 
+
+
 def identificar_pe(pose, superficie):
     x, y = pose.get_feet_center()
     if x is not None and y is not None:
         tamanho = 70  # tamanho do quadrado
         rect = pygame.Rect(int(x - tamanho/2), int(y - tamanho/2), tamanho, tamanho)
-        pygame.draw.rect(superficie, (0, 255, 0), rect)
+        pygame.draw.rect(superficie, (255, 128, 0), rect)
+
+def desenhar_score():
+    texto = fonte_jogo.render(f"{score:05d}", True, (255, 128, 0))
+    TELA.blit(texto, (LARGURA - texto.get_width() - 20, 20))
+
+
 
 # --- ADICIONAR AQUI ---
 estado_jogo = 'menu'  # O estado inicial do jogo
@@ -109,6 +117,11 @@ estado_jogo = 'menu'  # O estado inicial do jogo
 rodando = True
 pose = sensores.Sensores()
 cap = cv.VideoCapture(0)
+
+score = 0
+score_timer = pygame.USEREVENT + 5
+pygame.time.set_timer(score_timer, 1000)  
+
 while rodando:
     hercules_morto = False
     for event in pygame.event.get():
@@ -121,10 +134,13 @@ while rodando:
         if estado_jogo == 'jogando':
             if event.type == SPAWN_OBSTACULO:
                 grupo_obstaculos.add(Obstaculo(vel=5, largura_tela=LARGURA, altura_chao=400))
+            if event.type == score_timer:
+                score += 1
 
         elif estado_jogo == 'contagem':
             if event.type == contagem_timer:
                 contagem_numero -= 1
+        
 
     # Lógica Mediapipe
 
@@ -191,6 +207,7 @@ while rodando:
                 grupo_jogador.sprite.esta_abaixado = False
 
     elif estado_jogo == 'jogando':
+
         keys = pygame.key.get_pressed()
         grupo_jogador.update(keys)
         grupo_obstaculos.update()
@@ -199,6 +216,8 @@ while rodando:
 
         desenhar_tela_base()
         grupo_obstaculos.draw(TELA)
+        desenhar_score()
+
         
         TELA.blit(botao_pular, botao_pular_rect)
         TELA.blit(botao_abaixar, botao_abaixar_rect)
@@ -221,6 +240,8 @@ while rodando:
             estado_jogo = 'game_over'
 
     elif estado_jogo == 'game_over':
+            score = 0
+
             # 1. Desenha a tela base (céu, chão, etc)
             desenhar_tela_base() 
 
@@ -233,7 +254,7 @@ while rodando:
             
             TELA.blit(botao_reiniciar, botao_reiniciar_rect)
             if botao_reiniciar_rect.collidepoint((pose.feet_x, pose.feet_y)):
-                estado_jogo = 'menu'
+                estado_jogo = 'contagem'
 
     identificar_pe(pose, TELA)
     pygame.display.flip()
