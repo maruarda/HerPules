@@ -7,5 +7,5 @@
 O jogo se destacou na competição, conquistando o **1º lugar na categoria Voto Popular**, além de alcançar o **2º lugar na classificação geral** e na categoria **Design**.
 
 <div align="center">
-  <img src="imagens/jogo.gif" alt="Gameplay do HerPules" width="600">
+  <img src="https://github.com/maruarda/HerPules/blob/main/Imagens/jogo.gif" alt="Gameplay do HerPules" width="600">
 </div>
