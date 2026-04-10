@@ -1,6 +1,8 @@
 import pygame
 
+
 class Hercules(pygame.sprite.Sprite):
+    
     def __init__(self, pos) -> None:
         super().__init__()
 
@@ -36,20 +38,23 @@ class Hercules(pygame.sprite.Sprite):
         self.esta_correndo = False
         self.esta_abaixado = False
 
-    def input(self, keys):
-        self.vel_x = 0
-        self.esta_correndo = True
+    def esta_em_movimento(self):
+        return self.esta_correndo or self.esta_abaixado or not self.no_chao
+
+    # def input(self, keys):
+        # self.vel_x = 0
+        # self.esta_correndo = True
 
         # Pular 
-        if keys[pygame.K_UP] and self.no_chao:
-            self.vel_y = self.forca_pulo
-            self.no_chao = False
+        # if keys[pygame.K_UP] and self.no_chao:
+            # self.vel_y = self.forca_pulo
+            # self.no_chao = False
 
         # Abaixar (
-        if keys[pygame.K_DOWN]:
-            self.esta_abaixado = True
-        else:
-            self.esta_abaixado = False
+        # if keys[pygame.K_DOWN]:
+            # self.esta_abaixado = True
+        # else:
+            # self.esta_abaixado = False
 
     def aplicar_gravidade(self):
         self.vel_y += self.gravidade
@@ -83,7 +88,18 @@ class Hercules(pygame.sprite.Sprite):
         self.rect.bottom = old_bottom
         self.rect.centerx = old_centerx
 
-    def update(self, keys):
-        self.input(keys)
+    def pular(self):
+        if self.no_chao:
+            self.vel_y = self.forca_pulo
+            self.no_chao = False
+
+    def abaixar(self, ativo):
+        self.esta_abaixado = ativo
+        self.esta_correndo = not ativo and self.no_chao
+
+    def update(self):
+        if self.no_chao and not self.esta_abaixado:
+            self.esta_correndo = True
+
         self.aplicar_gravidade()
         self.animar()

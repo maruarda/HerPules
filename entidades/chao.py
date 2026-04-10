@@ -25,7 +25,7 @@ class Chao(pygame.sprite.Sprite):
             rect.x -= self.vel
 
         # Resetar posição quando sair da tela
-        largura_img = self.image.get_width()
+       # largura_img = self.image.get_width()
         for rect in self.copias:
             if rect.right <= 0:
                 # Encontrar a cópia mais à direita

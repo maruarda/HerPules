@@ -1,8 +1,9 @@
 # iniciar.py
-
 import pygame
 
+
 class Botao:
+
     def __init__(self, x, y, texto, fonte, cor_texto='white', cor_fundo='#4169E1', cor_hover='#6495ED'):
         
         self.fonte = fonte

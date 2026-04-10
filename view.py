@@ -1,6 +1,8 @@
 import pygame
 
 class GameView:
+    fonte_padrao = 'fontes/8BIT.TTF'
+    
     def __init__(self, largura, altura):
         # Inicializa a tela e fontes
         self.tela = pygame.display.set_mode((largura, altura))
@@ -9,12 +11,12 @@ class GameView:
         self.altura = altura
         
         # Fontes
-        self.fonte_jogo = pygame.font.Font('fontes/8BIT.TTF', 30)
-        self.fonte_contagem = pygame.font.Font('fontes/8BIT.TTF', 100)
-        self.fonte_gameover = pygame.font.Font('fontes/8BIT.TTF', 80)
+        self.fonte_jogo = pygame.font.Font(self.fonte_padrao, 30)
+        self.fonte_contagem = pygame.font.Font(self.fonte_padrao, 100)
+        self.fonte_gameover = pygame.font.Font(self.fonte_padrao, 80)
         
         # Imagens
-        self.fundo = pygame.image.load('Imagens/fundo.jpg').convert()
+        self.fundo = pygame.image.load('Imagens/fundonovo.png').convert()
         self.fundo = pygame.transform.scale(self.fundo, (largura, altura))
         self.fundo.set_alpha(150)
         
@@ -35,12 +37,20 @@ class GameView:
         self.tela.blit(self.fundo, (0, 0))
         model.ceu.draw(self.tela)
         
+        pygame.draw.rect(self.tela, (0, 0, 0), self.retangulo_tela)
+        model.chao.draw(self.tela)
+
         if model.estado == 'menu':
             rect_menu = self.imagem_menu.get_rect(center=(self.largura / 2, self.altura / 3))
             self.tela.blit(self.imagem_menu, rect_menu)
             self.tela.blit(self.botao_iniciar, self.rect_botao_iniciar)
             
             model.grupo_jogador.draw(self.tela)
+
+        elif model.estado == 'calibracao':
+            texto = self.fonte_jogo.render("Fique parado na area preta...", True, 'black')
+            rect = texto.get_rect(center=(self.largura/2, self.altura/2))
+            self.tela.blit(texto, rect)
 
         elif model.estado == 'contagem':
             model.grupo_jogador.draw(self.tela)
@@ -67,7 +77,4 @@ class GameView:
             self.tela.blit(texto_go, rect_go)
             self.tela.blit(self.botao_reiniciar, self.rect_botao_reiniciar)
 
-        pygame.draw.rect(self.tela, (0, 0, 0), self.retangulo_tela)
-        model.chao.draw(self.tela)
-        
         pygame.display.flip()
