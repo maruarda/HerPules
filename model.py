@@ -45,7 +45,7 @@ class GameModel:
         self.contagem_numero = 3
 
     def adicionar_obstaculo(self):
-        distancia_minima = 300  # teste 300, 350 ou 400
+        distancia_minima = 300 
 
         if len(self.grupo_obstaculos) > 0:
             ultimo = max(self.grupo_obstaculos, key=lambda obs: obs.rect.x)

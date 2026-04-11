@@ -8,9 +8,11 @@ class KeyboardInputProvider:
     def get_input(self):
         estado = InputState()
         keys = pygame.key.get_pressed()
-
         estado.abaixar = keys[pygame.K_DOWN]
         return estado
+
+    def calibrar(self):
+        pass
 
 
 class ScriptedInputProvider:
@@ -28,6 +30,9 @@ class ScriptedInputProvider:
 
         self.frame += 1
         return estado
+    
+    def calibrar(self):
+        pass
 
 
 class MediapipeInputProvider:

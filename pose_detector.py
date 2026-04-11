@@ -3,7 +3,7 @@ import mediapipe as mp
 
 class PoseDetector:
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)  # no Windows costuma funcionar melhor
+        self.cap = cv2.VideoCapture(0) 
         if not self.cap.isOpened():
             print("Erro: não foi possível abrir a câmera.")
         self.mp_pose = mp.solutions.pose

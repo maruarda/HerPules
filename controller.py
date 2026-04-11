@@ -3,7 +3,7 @@ from model import GameModel
 from view import GameView
 from input_providers import KeyboardInputProvider, ScriptedInputProvider, MediapipeInputProvider
 
-modo_input = "mediapipe"
+modo_input = "teclado"  # "teclado", "script" ou "mediapipe"
 
 class GameController:
     def __init__(self):
@@ -74,24 +74,28 @@ class GameController:
 
             elif event.type == self.evento_calibracao:
                 if self.model.estado == "calibracao":
-                    self.input_provider.calibrar()
+                    if hasattr(self.input_provider, "calibrar"):
+                        self.input_provider.calibrar()
                     self.model.iniciar_jogo()
                     pygame.time.set_timer(self.evento_calibracao, 0)
                     pygame.time.set_timer(self.evento_contagem, 1000)
 
-    def processar_keyup(self, event):
-        if self.model.estado == "jogando" and event.key == pygame.K_UP:
-            self.pulo_solicitado = True
-
     def processar_keydown(self, event):
-        if self.model.estado == "jogando" and event.key == pygame.K_DOWN:
-            self.aga_solicitado = True
+        if self.model.estado == "jogando":
+            if event.key == pygame.K_UP:
+                self.pulo_solicitado = True
+            elif event.key == pygame.K_DOWN:
+                self.aga_solicitado = True
 
     def processar_mouse(self, event):
         if self.model.estado == "menu":
             if self.view.rect_botao_iniciar.collidepoint(event.pos):
-                self.model.iniciar_calibracao()
-                pygame.time.set_timer(self.evento_calibracao, 2000)
+                if modo_input == "mediapipe":
+                    self.model.iniciar_calibracao()
+                    pygame.time.set_timer(self.evento_calibracao, 2000)
+                else:
+                    self.model.iniciar_jogo()
+                    pygame.time.set_timer(self.evento_contagem, 1000)
 
         elif self.model.estado == "game_over":
             if self.view.rect_botao_reiniciar.collidepoint(event.pos):
