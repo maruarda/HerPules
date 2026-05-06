@@ -1,7 +1,8 @@
 import pygame
+import mediapipe as mp
 from input_state import InputState
 from pose_detector import PoseDetector
-import mediapipe as mp
+
 
 
 class KeyboardInputProvider:
@@ -30,7 +31,7 @@ class ScriptedInputProvider:
 
         self.frame += 1
         return estado
-    
+
     def calibrar(self):
         pass
 

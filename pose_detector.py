@@ -3,7 +3,7 @@ import mediapipe as mp
 
 class PoseDetector:
     def __init__(self):
-        self.cap = cv2.VideoCapture(0) 
+        self.cap = cv2.VideoCapture(0)
         if not self.cap.isOpened():
             print("Erro: não foi possível abrir a câmera.")
         self.mp_pose = mp.solutions.pose
@@ -20,7 +20,7 @@ class PoseDetector:
         cv2.waitKey(1)
 
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        
+
         resultado = self.pose.process(rgb)
         # print(resultado.pose_landmarks)  # Debug: Imprime os landmarks detectados
 

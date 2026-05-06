@@ -1,5 +1,5 @@
-import pygame
 import random
+import pygame
 
 class Ceu:
     def __init__(self, vel, largura_tela):
@@ -12,7 +12,8 @@ class Ceu:
             scale_factor = random.uniform(3, 6)
             scaled_width = int(original_nuvem_image.get_width() * scale_factor)
             scaled_height = int(original_nuvem_image.get_height() * scale_factor)
-            scaled_image = pygame.transform.scale(original_nuvem_image, (scaled_width, scaled_height))
+            scaled_image = pygame.transform.scale(original_nuvem_image,
+                                                  (scaled_width, scaled_height))
 
             alpha_value = max(0, 255 - (scale_factor * 23))
             scaled_image.set_alpha(alpha_value)
@@ -44,11 +45,12 @@ class Ceu:
                 original_nuvem_image = pygame.image.load("Imagens/nuvem.png").convert_alpha()
                 scaled_width = int(original_nuvem_image.get_width() * scale_factor)
                 scaled_height = int(original_nuvem_image.get_height() * scale_factor)
-                nuvem['image'] = pygame.transform.scale(original_nuvem_image, (scaled_width, scaled_height))
-                
+                nuvem['image'] = pygame.transform.scale(original_nuvem_image,
+                                                        (scaled_width, scaled_height))
+ 
                 alpha_value = max(0, 255 - (scale_factor * 15))
                 nuvem['image'].set_alpha(alpha_value)
-                
+
                 # <<< 2ª MUDANÇA AQUI
                 nuvem['rect'].y = random.randint(0, 90) # Antes era (30, 200)
 
