@@ -3,7 +3,7 @@ from model import GameModel
 from view import GameView
 from input_providers import KeyboardInputProvider, ScriptedInputProvider, MediapipeInputProvider
 
-MODO_INPUT = "teclado"  # "teclado", "script" ou "mediapipe"
+MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
 
 class GameController:
     def __init__(self):

@@ -1,6 +1,6 @@
 import pygame
 
-MODO_INPUT = "teclado"  # "teclado", "script" ou "mediapipe"
+MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
 
 class GameView:
     fonte_padrao = 'fontes/8BIT.TTF'
