@@ -1,5 +1,6 @@
 import random
 import pygame
+from paths import resource_path
 
 
 class Obstaculo(pygame.sprite.Sprite):
@@ -7,24 +8,24 @@ class Obstaculo(pygame.sprite.Sprite):
         super().__init__()
 
         tipos_de_obstaculos = [
-            'Imagens/PeA-juntos.png',
-            'Imagens/agonia.png',
-            'Imagens/panico.png',
-            'Imagens/Sprite-coluna-inteira.png',
-            'Imagens/Sprite-coluna-quebrada.png',
-            'Imagens/colunas-juntas.png',
-            'Imagens/Sprite-vaso.png',
-            'Imagens/hades1.png',
-            'Imagens/fogo1.gif',
-            'Imagens/fogão.png'
+            resource_path('Imagens/PeA-juntos.png'),
+            resource_path('Imagens/agonia.png'),
+            resource_path('Imagens/panico.png'),
+            resource_path('Imagens/Sprite-coluna-inteira.png'),
+            resource_path('Imagens/Sprite-coluna-quebrada.png'),
+            resource_path('Imagens/colunas-juntas.png'),
+            resource_path('Imagens/Sprite-vaso.png'),
+            resource_path('Imagens/hades1.png'),
+            resource_path('Imagens/fogo1.gif'),
+            resource_path('Imagens/fogão.png')
         ]
 
         imagem_escolhida = random.choice(tipos_de_obstaculos)
-        if imagem_escolhida in ['Imagens/PeA-juntos.png',
-                                'Imagens/agonia.png',
-                                'Imagens/panico.png']:
+        if imagem_escolhida in [resource_path('Imagens/PeA-juntos.png'),
+                                resource_path('Imagens/agonia.png'),
+                                resource_path('Imagens/panico.png')]:
             scale_factor = random.uniform(1.5, 2.2)
-        elif imagem_escolhida == 'Imagens/Sprite-coluna-quebrada.png':
+        elif imagem_escolhida == resource_path('Imagens/Sprite-coluna-quebrada.png'):
             scale_factor = random.uniform(2, 2.7)
         else:
             scale_factor = random.uniform(2, 2.5)
@@ -39,9 +40,9 @@ class Obstaculo(pygame.sprite.Sprite):
                               altura_chao - 90, altura_chao - 95, altura_chao - 100]
         altura_escolhida = random.choice(alturas_possiveis)
 
-        if imagem_escolhida in ['Imagens/hades1.png',
-                                'Imagens/fogo1.png',
-                                'Imagens/fogão.png']:
+        if imagem_escolhida in [resource_path('Imagens/hades1.png'),
+                                resource_path('Imagens/fogo1.png'),
+                                resource_path('Imagens/fogão.png')]:
             self.rect = self.image.get_rect(
                 bottomleft=(largura_tela + random.randint(200, 300), altura_escolhida))
         else:

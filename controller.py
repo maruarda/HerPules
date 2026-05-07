@@ -2,6 +2,7 @@ import pygame
 from model import GameModel
 from view import GameView
 from input_providers import KeyboardInputProvider, ScriptedInputProvider, MediapipeInputProvider
+from paths import resource_path
 
 MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
 
@@ -45,13 +46,13 @@ class GameController:
         self.model = GameModel(self.largura, self.altura, self.velocidade_obstaculo)
         pygame.time.set_timer(self.evento_obstaculo, self.tempo_spawn_obstaculo)
 
-        pygame.mixer.music.load('sons/musica.mp3')
+        pygame.mixer.music.load(resource_path('sons/musica.mp3'))
         pygame.mixer.music.play(-1)
         music_volume = 0.4
         pygame.mixer.music.set_volume(music_volume)
 
-        self.som_pulo = pygame.mixer.Sound("sons/pulo.wav")
-        self.som_colisao = pygame.mixer.Sound("sons/morte.wav")
+        self.som_pulo = pygame.mixer.Sound(resource_path("sons/pulo.wav"))
+        self.som_colisao = pygame.mixer.Sound(resource_path("sons/morte.wav"))
 
     def processar_eventos(self):
         for event in pygame.event.get():

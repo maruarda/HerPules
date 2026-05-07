@@ -1,9 +1,10 @@
 import pygame
+from paths import resource_path
 
 MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
 
 class GameView:
-    fonte_padrao = 'fontes/8BIT.TTF'
+    fonte_padrao = resource_path('fontes/8BIT.TTF')
 
     def __init__(self, largura, altura):
         # Inicializa a tela e fontes
@@ -18,18 +19,18 @@ class GameView:
         self.fonte_gameover = pygame.font.Font(self.fonte_padrao, 80)
 
         # Imagens
-        self.fundo = pygame.image.load('Imagens/fundonovo.png').convert()
+        self.fundo = pygame.image.load(resource_path('Imagens/fundonovo.png')).convert()
         self.fundo = pygame.transform.scale(self.fundo, (largura, altura))
         self.fundo.set_alpha(150)
 
-        self.imagem_menu = pygame.image.load('Imagens/herpules.png').convert_alpha()
+        self.imagem_menu = pygame.image.load(resource_path('Imagens/herpules.png')).convert_alpha()
         self.imagem_menu = pygame.transform.scale(self.imagem_menu, (largura//2, altura//2))
 
-        self.botao_iniciar = pygame.image.load("Imagens/iniciar.png").convert_alpha()
+        self.botao_iniciar = pygame.image.load(resource_path("Imagens/iniciar.png")).convert_alpha()
         self.botao_iniciar = pygame.transform.scale(self.botao_iniciar, (200, 80))
         self.rect_botao_iniciar = self.botao_iniciar.get_rect(center=(largura / 2, altura - 70))
 
-        self.botao_reiniciar = pygame.image.load("Imagens/reiniciar.png").convert_alpha()
+        self.botao_reiniciar = pygame.image.load(resource_path("Imagens/reiniciar.png")).convert_alpha()
         self.botao_reiniciar = pygame.transform.scale(self.botao_reiniciar, (200, 100))
         self.rect_botao_reiniciar = self.botao_reiniciar.get_rect(
             center=(largura // 2, altura // 2 + 50))
