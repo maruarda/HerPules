@@ -3,7 +3,6 @@ from entidades.hercules import Hercules
 from entidades.obstaculos import Obstaculo
 from entidades.ceu import Ceu
 from entidades.chao import Chao
-from entidades.iniciar import Botao
 
 
 class GameModel:
@@ -13,7 +12,7 @@ class GameModel:
         self.altura = altura
         self.velocidade_obstaculo = velocidade_obstaculo
         self.score = 0
-        self.estado = 'menu'  # menu, calibracao ,contagem, jogando, game_over, 
+        self.estado = 'menu'  # menu, calibracao ,contagem, jogando, game_over
         self.contagem_numero = 3
 
         self.grupo_jogador = pygame.sprite.GroupSingle()
@@ -45,7 +44,7 @@ class GameModel:
         self.contagem_numero = 3
 
     def adicionar_obstaculo(self):
-        distancia_minima = 300 
+        distancia_minima = 300
 
         if len(self.grupo_obstaculos) > 0:
             ultimo = max(self.grupo_obstaculos, key=lambda obs: obs.rect.x)
@@ -65,6 +64,11 @@ class GameModel:
 
             self.grupo_jogador.update()
             self.grupo_obstaculos.update()
+
+            for obstaculo in self.grupo_obstaculos:
+                if not obstaculo.ja_pontuou and obstaculo.rect.right < self.hercules.rect.left:
+                    self.score += 1
+                    obstaculo.ja_pontuou = True
 
             if self.hercules.esta_em_movimento():
                 self.ceu.update()

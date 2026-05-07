@@ -2,7 +2,7 @@ import pygame
 
 
 class Hercules(pygame.sprite.Sprite):
-    
+
     def __init__(self, pos) -> None:
         super().__init__()
 
@@ -11,16 +11,26 @@ class Hercules(pygame.sprite.Sprite):
         largura = self.image.get_width() * 3
 
         self.imagens_run = [
-            pygame.transform.scale(pygame.image.load("Imagens/hercules-correndo1.png").convert_alpha(), (altura, largura)),
-            pygame.transform.scale(pygame.image.load("Imagens/hercules-correndo2.png").convert_alpha(), (altura, largura))
+            pygame.transform.scale(
+                pygame.image.load("Imagens/hercules-correndo1.png").convert_alpha(), 
+                (altura, largura)),
+            pygame.transform.scale(
+                pygame.image.load("Imagens/hercules-correndo2.png").convert_alpha(), 
+                (altura, largura))
         ]
-        self.imagem_pulo = pygame.transform.scale(pygame.image.load("Imagens/hercules-pulando.png").convert_alpha(), (altura, largura))
+        self.imagem_pulo = pygame.transform.scale(
+            pygame.image.load("Imagens/hercules-pulando.png").convert_alpha(), 
+            (altura, largura))
         self.imagem_abaixa = [
-            pygame.transform.scale(pygame.image.load("Imagens/hercules-abaixa1.png").convert_alpha(), (altura, largura)),
-            pygame.transform.scale(pygame.image.load("Imagens/hercules-abaixa2.png").convert_alpha(), (altura, largura))
+            pygame.transform.scale(
+                pygame.image.load("Imagens/hercules-abaixa1.png").convert_alpha(), (altura, largura)),
+            pygame.transform.scale(
+                pygame.image.load("Imagens/hercules-abaixa2.png").convert_alpha(), (altura, largura))
         ]
-        self.imagem_morto = pygame.transform.scale(pygame.image.load("Imagens/hercules-mortinho.png").convert_alpha(), (altura, largura))
-        self.imagem_parado = pygame.transform.scale(pygame.image.load("Imagens/hercules-parado.png").convert_alpha(), (altura, largura))
+        self.imagem_morto = pygame.transform.scale(
+            pygame.image.load("Imagens/hercules-mortinho.png").convert_alpha(), (altura, largura))
+        self.imagem_parado = pygame.transform.scale(
+            pygame.image.load("Imagens/hercules-parado.png").convert_alpha(), (altura, largura))
 
         self.image = pygame.transform.scale(self.image.convert_alpha(), (altura, largura))
         self.rect = self.image.get_rect(midbottom=pos)
@@ -45,7 +55,7 @@ class Hercules(pygame.sprite.Sprite):
         # self.vel_x = 0
         # self.esta_correndo = True
 
-        # Pular 
+        # Pular
         # if keys[pygame.K_UP] and self.no_chao:
             # self.vel_y = self.forca_pulo
             # self.no_chao = False
