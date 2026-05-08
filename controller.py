@@ -3,7 +3,7 @@ from model import GameModel
 from view import GameView
 from input_providers import KeyboardInputProvider, ScriptedInputProvider, MediapipeInputProvider
 
-MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
+MODO_INPUT = 'mediapipe' # 'teclado', 'script' ou 'mediapipe'
 
 class GameController:
     def __init__(self):
@@ -37,7 +37,7 @@ class GameController:
 
         if MODO_INPUT == "mediapipe":
             self.tempo_spawn_obstaculo = 2000
-            self.velocidade_obstaculo = 4
+            self.velocidade_obstaculo = 3
         else:
             self.tempo_spawn_obstaculo = 2000
             self.velocidade_obstaculo = 5

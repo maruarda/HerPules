@@ -45,8 +45,8 @@ class MediapipeInputProvider:
         self.pose_landmark = mp.solutions.pose.PoseLandmark
         self.hip_y_anterior = None
         self.frames_sem_pose = 0
-        self.limiar_pulo = 0.06
-        self.limiar_subida = 0.015
+        self.limiar_pulo = 0.03
+        self.limiar_subida = 0.008
         self.limiar_agachar = 0.05
 
     def release(self):
@@ -115,7 +115,7 @@ class MediapipeInputProvider:
         if self.cooldown_pulo > 0:
             self.cooldown_pulo -= 1
 
-        feet_up = foot_y < self.baseline_foot_y - 0.04
+        feet_up = foot_y < self.baseline_foot_y - 0.02
         hip_up = hip_y < self.baseline_hip_y - self.limiar_pulo
 
         if (

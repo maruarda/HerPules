@@ -20,8 +20,8 @@ class GameModel:
         self.grupo_jogador.add(self.hercules)
 
         self.grupo_obstaculos = pygame.sprite.Group()
-        self.chao = Chao(y_pos=400, vel=5)
-        self.ceu = Ceu(vel=2, largura_tela=largura)
+        self.chao = Chao(y_pos=400, vel=3)
+        self.ceu = Ceu(vel=1, largura_tela=largura)
 
     def iniciar_jogo(self):
         self.estado = 'contagem'

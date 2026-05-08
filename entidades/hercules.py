@@ -38,8 +38,8 @@ class Hercules(pygame.sprite.Sprite):
         # Física
         self.vel_x = 0
         self.vel_y = 0
-        self.gravidade = 1
-        self.forca_pulo = -24
+        self.gravidade = 0.6
+        self.forca_pulo = -18
         self.no_chao = True
 
         # Animação

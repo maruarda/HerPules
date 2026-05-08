@@ -1,6 +1,6 @@
 import pygame
 
-MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
+MODO_INPUT = 'mediapipe' # 'teclado', 'script' ou 'mediapipe'
 
 class GameView:
     fonte_padrao = 'fontes/8BIT.TTF'
@@ -40,7 +40,7 @@ class GameView:
         self.tela.blit(self.fundo, (0, 0))
         model.ceu.draw(self.tela)
 
-        pygame.draw.rect(self.tela, (0, 0, 0), self.retangulo_tela)
+        pygame.draw.rect(self.tela, (86, 50, 168), self.retangulo_tela)
         model.chao.draw(self.tela)
 
 
@@ -58,7 +58,7 @@ class GameView:
             model.grupo_jogador.draw(self.tela)
 
         elif model.estado == 'calibracao':
-            texto = self.fonte_jogo.render("Fique parado na area preta...", True, 'black')
+            texto = self.fonte_jogo.render("Fique parado na area roxa...", True, 'black')
             rect = texto.get_rect(center=(self.largura/2, self.altura/2))
             self.tela.blit(texto, rect)
 

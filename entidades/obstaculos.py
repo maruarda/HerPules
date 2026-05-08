@@ -35,8 +35,8 @@ class Obstaculo(pygame.sprite.Sprite):
         new_height = int(original_image.get_height() * scale_factor)
         self.image = pygame.transform.scale(original_image, (new_width, new_height))
 
-        alturas_possiveis = [altura_chao, altura_chao - 80, altura_chao - 85,
-                              altura_chao - 90, altura_chao - 95, altura_chao - 100]
+        alturas_possiveis = [altura_chao, altura_chao - 85,
+                              altura_chao - 90, altura_chao - 95]
         altura_escolhida = random.choice(alturas_possiveis)
 
         if imagem_escolhida in ['Imagens/hades1.png',
