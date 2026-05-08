@@ -58,7 +58,7 @@ class GameView:
             model.grupo_jogador.draw(self.tela)
 
         elif model.estado == 'calibracao':
-            texto = self.fonte_jogo.render("Fique parado na area roxa...", True, 'black')
+            texto = self.fonte_jogo.render("Calibrando...", True, 'black')
             rect = texto.get_rect(center=(self.largura/2, self.altura/2))
             self.tela.blit(texto, rect)
 
