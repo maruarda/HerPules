@@ -1,8 +1,21 @@
 import random
 import pygame
 
+
 class Ceu:
+    """Representa o fundo celeste com nuvens em movimento.
+
+    A classe gera várias nuvens aleatórias, desloca-as horizontalmente e as
+    reposiciona para criar o efeito de céu em movimento durante o jogo.
+    """
+
     def __init__(self, vel, largura_tela):
+        """Inicializa o céu com nuvens aleatórias e velocidade configurável.
+
+        Args:
+            vel (int): Velocidade de deslocamento do céu.
+            largura_tela (int): Largura da tela para cálculo de posicionamento.
+        """
         original_nuvem_image = pygame.image.load("Imagens/nuvem.png").convert_alpha()
         self.nuvens_data = []
         num_nuvens = 7
@@ -19,8 +32,7 @@ class Ceu:
             scaled_image.set_alpha(alpha_value)
 
             pos_x = current_x
-            # <<< 1ª MUDANÇA AQUI
-            pos_y = random.randint(0, 90) # Antes era (30, 200)
+            pos_y = random.randint(0, 90)
             rect = scaled_image.get_rect(topleft=(pos_x, pos_y))
 
             self.nuvens_data.append({'image': scaled_image, 'rect': rect, 'alpha': alpha_value})
@@ -32,6 +44,7 @@ class Ceu:
         self.largura_tela = largura_tela
 
     def update(self):
+        """Move as nuvens para a esquerda e reaproveita-as ao sair da tela."""
         for nuvem in self.nuvens_data:
             nuvem['rect'].x -= self.vel
 
@@ -50,10 +63,9 @@ class Ceu:
  
                 alpha_value = max(0, 255 - (scale_factor * 15))
                 nuvem['image'].set_alpha(alpha_value)
-
-                # <<< 2ª MUDANÇA AQUI
-                nuvem['rect'].y = random.randint(0, 90) # Antes era (30, 200)
+                nuvem['rect'].y = random.randint(0, 90)
 
     def draw(self, tela):
+        """Desenha todas as nuvens na superfície da tela."""
         for nuvem in self.nuvens_data:
             tela.blit(nuvem['image'], nuvem['rect'])

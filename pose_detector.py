@@ -3,7 +3,20 @@ import mediapipe as mp
 
 
 class PoseDetector:
+    """Detecta landmarks de pose humana usando MediaPipe e expõe os dados para o jogo.
+
+    A classe captura frames da câmera, processa pose, opcionalmente desenha os
+    landmarks na imagem e retorna os pontos detectados para a lógica de input.
+    """
+
     def __init__(self, camera_index=0, mostrar_camera=True, mostrar_landmarks=True):
+        """Inicializa a câmera e a pipeline de detecção de pose.
+
+        Args:
+            camera_index (int, optional): Índice da câmera a ser usada. Padrão é 0.
+            mostrar_camera (bool, optional): Se True, exibe a janela da câmera.
+            mostrar_landmarks (bool, optional): Se True, desenha os landmarks na imagem.
+        """
         # configuração da câmera
         self.cap = cv2.VideoCapture(camera_index)
 
@@ -35,6 +48,12 @@ class PoseDetector:
         self.last_landmarks = None
 
     def read_pose(self):
+        """Lê um frame da câmera, processa pose e retorna os landmarks detectados.
+
+        Returns:
+            list | None: Lista de landmarks detectados ou o último valor válido
+                caso a pose não seja encontrada no frame atual.
+        """
         if self.cap is None or not self.cap.isOpened():
             return None
 
@@ -90,6 +109,7 @@ class PoseDetector:
         return self.last_landmarks
 
     def release(self):
+        """Libera a câmera e encerra os recursos do MediaPipe e da janela OpenCV."""
         if self.cap is not None:
             self.cap.release()
 

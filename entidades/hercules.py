@@ -2,8 +2,14 @@ import pygame
 
 
 class Hercules(pygame.sprite.Sprite):
+    """Representa o protagonista do jogo e suas ações de movimento e animação."""
 
     def __init__(self, pos) -> None:
+        """Inicializa o personagem com sprites, física e estado de animação.
+
+        Args:
+            pos (tuple): Posição inicial do personagem no formato (x, y).
+        """
         super().__init__()
 
         self.image = pygame.image.load("Imagens/hercules-parado.png")
@@ -35,38 +41,23 @@ class Hercules(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image.convert_alpha(), (altura, largura))
         self.rect = self.image.get_rect(midbottom=pos)
 
-        # Física
         self.vel_x = 0
         self.vel_y = 0
         self.gravidade = 0.6
         self.forca_pulo = -18
         self.no_chao = True
 
-        # Animação
         self.anim_index = 0
         self.anim_speed = 0.15
         self.esta_correndo = False
         self.esta_abaixado = False
 
     def esta_em_movimento(self):
+        """Verifica se o personagem está em algum estado de movimento ativo."""
         return self.esta_correndo or self.esta_abaixado or not self.no_chao
 
-    # def input(self, keys):
-        # self.vel_x = 0
-        # self.esta_correndo = True
-
-        # Pular
-        # if keys[pygame.K_UP] and self.no_chao:
-            # self.vel_y = self.forca_pulo
-            # self.no_chao = False
-
-        # Abaixar (
-        # if keys[pygame.K_DOWN]:
-            # self.esta_abaixado = True
-        # else:
-            # self.esta_abaixado = False
-
     def aplicar_gravidade(self):
+        """Aplica a gravidade ao personagem e limita sua posição no chão."""
         self.vel_y += self.gravidade
         self.rect.y += self.vel_y
 
@@ -76,6 +67,7 @@ class Hercules(pygame.sprite.Sprite):
             self.no_chao = True
 
     def animar(self):
+        """Atualiza a imagem do personagem conforme seu estado atual."""
         if not self.no_chao:
             self.image = self.imagem_pulo
         elif self.esta_abaixado:
@@ -99,15 +91,22 @@ class Hercules(pygame.sprite.Sprite):
         self.rect.centerx = old_centerx
 
     def pular(self):
+        """Faz o personagem saltar quando ele está no chão."""
         if self.no_chao:
             self.vel_y = self.forca_pulo
             self.no_chao = False
 
     def abaixar(self, ativo):
+        """Define se o personagem deve agir como se estivesse agachado.
+
+        Args:
+            ativo (bool): Indica se o agachamento está ativado.
+        """
         self.esta_abaixado = ativo
         self.esta_correndo = not ativo and self.no_chao
 
     def update(self):
+        """Atualiza a física e a animação do personagem a cada frame."""
         if self.no_chao and not self.esta_abaixado:
             self.esta_correndo = True
 

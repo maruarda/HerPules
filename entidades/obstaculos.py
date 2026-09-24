@@ -3,7 +3,20 @@ import pygame
 
 
 class Obstaculo(pygame.sprite.Sprite):
+    """Representa um obstáculo que se move em direção ao jogador.
+
+    Cada instância escolhe uma imagem aleatória, determina sua escala e o
+    posiciona na tela para criar variação no cenário do jogo.
+    """
+
     def __init__(self, vel, largura_tela, altura_chao):
+        """Inicializa um obstáculo com imagem, velocidade e posição aleatórias.
+
+        Args:
+            vel (int): Velocidade de deslocamento do obstáculo.
+            largura_tela (int): Largura da tela para posicionar o objeto à direita.
+            altura_chao (int): Altura do chão usado como referência para a base do obstáculo.
+        """
         super().__init__()
 
         tipos_de_obstaculos = [
@@ -55,6 +68,7 @@ class Obstaculo(pygame.sprite.Sprite):
         self.ja_pontuou = False
 
     def update(self):
+        """Move o obstáculo para a esquerda e remove-o ao sair da tela."""
         self.rect.x -= self.vel
 
         if self.rect.right < 0:

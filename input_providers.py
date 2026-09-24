@@ -6,21 +6,37 @@ from pose_detector import PoseDetector
 
 
 class KeyboardInputProvider:
+    """Fornece entradas de teclado como comando para o jogo."""
+
     def get_input(self):
+        """Retorna o estado de entrada baseado no teclado.
+
+        Returns:
+            InputState: Estado atual da entrada com flags de pulo e agachar.
+        """
         estado = InputState()
         keys = pygame.key.get_pressed()
         estado.abaixar = keys[pygame.K_DOWN]
         return estado
 
     def calibrar(self):
+        """Método de compatibilidade sem comportamento específico para teclado."""
         pass
 
 
 class ScriptedInputProvider:
+    """Gera uma sequência pré-definida de entradas para testes automatizados."""
+
     def __init__(self):
+        """Inicializa o contador de frames da sequência scriptada."""
         self.frame = 0
 
     def get_input(self):
+        """Retorna um estado de entrada com base em um frame programado.
+
+        Returns:
+            InputState: Estado do frame atual da sequência.
+        """
         estado = InputState()
 
         if self.frame == 60:
@@ -33,11 +49,19 @@ class ScriptedInputProvider:
         return estado
 
     def calibrar(self):
+        """Método de compatibilidade sem comportamento específico para o modo scriptado."""
         pass
 
 
 class MediapipeInputProvider:
+    """Converte a pose detectada em comandos de pulo e agachar do jogo.
+
+    Esse provedor usa a detecção de landmarks do corpo para interpretar o
+    movimento do jogador e gerar ações de entrada em tempo real.
+    """
+
     def __init__(self):
+        """Inicializa o detector de pose e os parâmetros de calibração e detecção."""
         self.detector = PoseDetector()
         self.baseline_hip_y = None
         self.baseline_foot_y = None
@@ -50,9 +74,15 @@ class MediapipeInputProvider:
         self.limiar_agachar = 0.05
 
     def release(self):
+        """Libera os recursos do detector de pose."""
         self.detector.release()
 
     def calibrar(self):
+        """Calcula as linhas base de quadril e tornozelo para interpretar movimento humano.
+
+        Coleta vários frames da câmera e calcula a média da posição do quadril e
+        dos tornozelos para servir de referência durante o jogo.
+        """
         valores_hip = []
         valores_foot = []
 
@@ -78,6 +108,11 @@ class MediapipeInputProvider:
             self.baseline_foot_y = sum(valores_foot) / len(valores_foot)
 
     def get_input(self):
+        """Interpreta a pose atual e retorna um estado de entrada do jogador.
+
+        Returns:
+            InputState: Estado com pulo e/ou agachar conforme a pose detectada.
+        """
         estado = InputState()
         landmarks = self.detector.read_pose()
 

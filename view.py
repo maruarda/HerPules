@@ -1,11 +1,24 @@
 import pygame
 
-MODO_INPUT = 'mediapipe' # 'teclado', 'script' ou 'mediapipe'
+MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
+
 
 class GameView:
+    """Responsável pela renderização da interface do jogo e dos elementos visuais.
+
+    A classe gerencia a janela principal, os recursos gráficos, a exibição do
+    menu, da contagem, do jogo em andamento e da tela de game over.
+    """
+
     fonte_padrao = 'fontes/8BIT.TTF'
 
     def __init__(self, largura, altura):
+        """Inicializa a janela do jogo e todos os recursos visuais necessários.
+
+        Args:
+            largura (int): Largura da janela em pixels.
+            altura (int): Altura da janela em pixels.
+        """
         # Inicializa a tela e fontes
         self.tela = pygame.display.set_mode((largura, altura))
         pygame.display.set_caption("HerPULEs")
@@ -37,12 +50,17 @@ class GameView:
         self.retangulo_tela = pygame.Rect(0, 400, largura, altura/3)
 
     def desenhar(self, model):
+        """Desenha a cena atual do jogo na tela com base no estado do modelo.
+
+        Args:
+            model: Instância do modelo do jogo contendo o estado, elementos
+                visuais e dados do cenário atual.
+        """
         self.tela.blit(self.fundo, (0, 0))
         model.ceu.draw(self.tela)
 
         pygame.draw.rect(self.tela, (86, 50, 168), self.retangulo_tela)
         model.chao.draw(self.tela)
-
 
         if model.estado == 'menu':
             rect_menu = self.imagem_menu.get_rect(center=(self.largura / 2, self.altura / 3))

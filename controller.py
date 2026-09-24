@@ -3,10 +3,18 @@ from model import GameModel
 from view import GameView
 from input_providers import KeyboardInputProvider, ScriptedInputProvider, MediapipeInputProvider
 
-MODO_INPUT = 'mediapipe' # 'teclado', 'script' ou 'mediapipe'
+MODO_INPUT = 'mediapipe'  # 'teclado', 'script' ou 'mediapipe'
+
 
 class GameController:
+    """Controla a lógica principal do jogo, os eventos e a interação entre modelo e visão.
+
+    A classe coordena a entrada do usuário, o processamento dos eventos do
+    pygame, a atualização do modelo e a renderização da interface.
+    """
+
     def __init__(self):
+        """Inicializa a aplicação, a janela, os providers de entrada e os sons do jogo."""
         pygame.init()
         pygame.mixer.init()
 
@@ -54,6 +62,11 @@ class GameController:
         self.som_colisao = pygame.mixer.Sound("sons/morte.wav")
 
     def processar_eventos(self):
+        """Processa os eventos disparados pelo pygame e ativa ações do jogo.
+
+        Inclui fechamentos de janela, teclas pressionadas, cliques do mouse,
+        timers de obstáculo, contagem e calibração.
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -80,6 +93,11 @@ class GameController:
                     pygame.time.set_timer(self.evento_contagem, 1000)
 
     def processar_keydown(self, event):
+        """Registra ações do teclado quando o jogador pressiona as teclas de pulo e agachar.
+
+        Args:
+            event: Evento de teclado capturado pelo pygame.
+        """
         if self.model.estado == "jogando":
             if event.key == pygame.K_UP:
                 self.pulo_solicitado = True
@@ -87,6 +105,11 @@ class GameController:
                 self.aga_solicitado = True
 
     def processar_mouse(self, event):
+        """Processa cliques do mouse em botões do menu e do fim de partida.
+
+        Args:
+            event: Evento de mouse recebido pelo pygame.
+        """
         if MODO_INPUT == "mediapipe":
             return
 
@@ -108,6 +131,7 @@ class GameController:
                 self.aga_solicitado = False
 
     def processar_contagem(self):
+        """Atualiza a contagem regressiva antes do início da partida."""
         if self.model.estado == "contagem":
             self.model.contagem_numero -= 1
 
@@ -116,6 +140,12 @@ class GameController:
                 pygame.time.set_timer(self.evento_contagem, 0)
 
     def atualizar(self):
+        """Atualiza a lógica do jogo com a entrada atual e o estado do modelo.
+
+        Essa função combina as ações recebidas da entrada, trata acionamentos de
+        pulo e regressão da fase, chama a atualização do modelo e aplica efeitos
+        sonoros de colisão.
+        """
         input_atual = self.input_provider.get_input()
 
         if self.pulo_solicitado:
@@ -153,6 +183,7 @@ class GameController:
         self.aga_solicitado = False
 
     def run(self):
+        """Executa o loop principal do jogo até que a aplicação seja encerrada."""
         while self.running:
             self.processar_eventos()
             self.atualizar()

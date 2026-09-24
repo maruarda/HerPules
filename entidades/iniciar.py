@@ -3,10 +3,21 @@ import pygame
 
 
 class Botao:
+    """Representa um botão interativo desenhado em uma superfície do pygame."""
 
     def __init__(self, x, y, texto, fonte, cor_texto='white', 
                  cor_fundo='#4169E1', cor_hover='#6495ED'):
- 
+        """Inicializa o botão com texto, estilo e área de clique.
+
+        Args:
+            x (int): Coordenada X central do botão.
+            y (int): Coordenada Y central do botão.
+            texto (str): Texto exibido no botão.
+            fonte: Fonte usada para renderizar o texto.
+            cor_texto (str, optional): Cor do texto. Padrão é 'white'.
+            cor_fundo (str, optional): Cor padrão do botão. Padrão é '#4169E1'.
+            cor_hover (str, optional): Cor do botão ao passar o mouse por cima.
+        """
         self.fonte = fonte
         self.cor_texto = cor_texto
         self.texto_surf = self.fonte.render(texto, True, self.cor_texto)
@@ -31,7 +42,10 @@ class Botao:
 
     def check_click(self):
         """Verifica se o botão foi clicado com o botão esquerdo do mouse.
-        Retorna True se foi clicado."""
+
+        Returns:
+            bool: True se o botão foi clicado, caso contrário False.
+        """
         pos_mouse = pygame.mouse.get_pos()
         acao = False
 
