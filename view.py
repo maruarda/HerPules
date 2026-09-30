@@ -39,13 +39,13 @@ class GameView:
         self.imagem_menu = pygame.transform.scale(self.imagem_menu, (largura//2, altura//2))
 
         self.botao_iniciar = pygame.image.load("Imagens/iniciar.png").convert_alpha()
-        self.botao_iniciar = pygame.transform.scale(self.botao_iniciar, (200, 80))
-        self.rect_botao_iniciar = self.botao_iniciar.get_rect(center=(largura / 2, altura - 70))
+        self.botao_iniciar = pygame.transform.scale(self.botao_iniciar, (200, 100))
+        self.rect_botao_iniciar = self.botao_iniciar.get_rect(center=(largura // 2, altura - 70))
 
         self.botao_reiniciar = pygame.image.load("Imagens/reiniciar.png").convert_alpha()
         self.botao_reiniciar = pygame.transform.scale(self.botao_reiniciar, (200, 100))
         self.rect_botao_reiniciar = self.botao_reiniciar.get_rect(
-            center=(largura // 2, altura // 2 + 50))
+            center=(largura // 2, altura - 70))
 
         self.retangulo_tela = pygame.Rect(0, 400, largura, altura/3)
 

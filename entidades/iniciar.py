@@ -1,4 +1,3 @@
-# iniciar.py
 import pygame
 
 
