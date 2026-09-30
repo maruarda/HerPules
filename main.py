@@ -13,6 +13,13 @@ from controle_mediapipe import sensores
 pygame.init()
 pygame.mixer.init()
 
+# Modo de teste: False = usa câmera; True = roda sem câmera e usa teclado como fallback
+USAR_CAMERA = True  # Mude para False para usar a câmera
+
+# Aperte 'C' para calibrar a câmera antes de iniciar o jogo, se estiver usando
+# a câmera. O jogo vai fechar, ao rodar o jogo novamente ele detecta a 
+# calibração feita e funciona normalmente
+
 LARGURA, ALTURA = 800, 600
 TELA = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("HerPULEs")
@@ -74,7 +81,7 @@ ceu = Ceu(vel=2, largura_tela=LARGURA)
 
 pygame.mixer.music.load('sons/musica.mp3')
 pygame.mixer.music.play(-1)
-music_volume = 0.8
+music_volume = 1
 pygame.mixer.music.set_volume(music_volume)
 
 som_morte = pygame.mixer.Sound('sons/morte.wav')
@@ -84,7 +91,7 @@ pulo = pygame.mixer.Sound('sons/pulo.wav')
 pulo.set_volume(0.3)
 
 SPAWN_OBSTACULO = pygame.USEREVENT + 1
-pygame.time.set_timer(SPAWN_OBSTACULO, 2000)
+pygame.time.set_timer(SPAWN_OBSTACULO, 2500) # spawn a 2.5 segundos
 
 # --- FUNÇÕES ---
 def checar_colisao():
@@ -130,20 +137,56 @@ estado_jogo = 'menu'  # O estado inicial do jogo
 
 rodando = True
 pose = sensores.Sensores()
-cap = cv.VideoCapture(0)
+cap = cv.VideoCapture(0) if USAR_CAMERA else None
 
 score = 0
 score_timer = pygame.USEREVENT + 5
 pygame.time.set_timer(score_timer, 1000)  
 
+
+def atualizar_pose_do_sensor():
+    """Atualiza a pose do jogador. Se o modo sem câmera estiver ativo, usa um fallback por teclado."""
+    if not USAR_CAMERA:
+        pose.feet_x = LARGURA // 2
+        pose.feet_y = ALTURA - 70
+        return
+
+    if cap is None:
+        pose.feet_x = LARGURA // 2
+        pose.feet_y = ALTURA - 70
+        return
+
+    ret, frame = cap.read()
+    if not ret:
+        pose.feet_x = LARGURA // 2
+        pose.feet_y = ALTURA - 70
+        return
+
+    frame = cv.flip(frame, 1)
+    frame = pose.scan_feets(frame)
+    cv.imshow('Herpules', frame)
+
+
 while rodando:
     hercules_morto = False
+    keys = pygame.key.get_pressed()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             rodando = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_c:
                 calibrar_ttea()
+
+            if not USAR_CAMERA and event.key == pygame.K_RETURN:
+                if estado_jogo == 'menu':
+                    estado_jogo = 'contagem'
+                    contagem_numero = 3
+                    pygame.time.set_timer(contagem_timer, 1000)
+                elif estado_jogo == 'game_over':
+                    estado_jogo = 'contagem'
+                    contagem_numero = 3
+                    pygame.time.set_timer(contagem_timer, 1000)
 
         if estado_jogo == 'jogando':
             if event.type == SPAWN_OBSTACULO:
@@ -154,17 +197,30 @@ while rodando:
         elif estado_jogo == 'contagem':
             if event.type == contagem_timer:
                 contagem_numero -= 1
-        
 
     # Lógica Mediapipe
+    atualizar_pose_do_sensor()
 
-    ret, frame = cap.read()
-    frame = cv.flip(frame, 1)
-    frame = pose.scan_feets(frame)
-    cv.imshow('Herpules', frame)
+    if not USAR_CAMERA:
+        # Fallback por teclado quando não há câmera:
+        if estado_jogo == 'menu':
+            pose.feet_x = LARGURA # / 2
+            pose.feet_y = ALTURA # - 70
+
+        elif estado_jogo == 'contagem':
+            pose.feet_x = LARGURA / 2
+            pose.feet_y = ALTURA - 70
+        elif estado_jogo == 'jogando':
+            if keys[pygame.K_DOWN]:
+                grupo_jogador.sprite.esta_abaixado = True
+            else:
+                grupo_jogador.sprite.esta_abaixado = False
+        elif estado_jogo == 'game_over':
+            pose.feet_x = LARGURA / 2
+            pose.feet_y = ALTURA / 2 + 5
 
     # --- LÓGICA E DESENHO ---
-    # Dentro do loop principal, onde você já está detectando os cliques nos botões
+    # Dentro do loop principal, onde já está detectando os cliques nos botões
 
     if estado_jogo == 'menu':
 
@@ -183,6 +239,10 @@ while rodando:
 
         # Desenha o botão imagem
         TELA.blit(botao_iniciar, botao_rect)
+
+        texto = fonte_jogo.render('Aperte C para calibrar', True, (0.1, 0.1, 0,1))
+        rect = texto.get_rect(center=(LARGURA / 2, ALTURA - 240))
+        TELA.blit(texto, rect)
 
         if botao_rect.collidepoint((pose.feet_x, pose.feet_y)):
             estado_jogo = 'contagem'

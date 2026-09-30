@@ -37,9 +37,9 @@ class Obstaculo(pygame.sprite.Sprite):
         altura_escolhida = random.choice(alturas_possiveis)
 
         if imagem_escolhida == 'Imagens/hades1.png' or imagem_escolhida == 'Imagens/fogo1.png' or imagem_escolhida == 'Imagens/fogão.png':
-            self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(200, 300), altura_escolhida))
+            self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(300, 500), altura_escolhida))
         else:
-            self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(200, 300), altura_chao))
+            self.rect = self.image.get_rect(bottomleft=(largura_tela + random.randint(300, 500), altura_chao))
 
         self.mask = pygame.mask.from_surface(self.image)
         
